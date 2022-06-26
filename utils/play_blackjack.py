@@ -2,10 +2,11 @@ import blackjack_actors
 import rules
 import blackjack_utils
 
-# Creating First Hand
+# Game intro
 print(blackjack_utils.black_jack_logo)
 is_player_playing = input("Do you want to play a little game? \n Type 'y': ")
 
+# Creating First Hand
 player = blackjack_actors.CardHand("Player")
 dealer = blackjack_actors.CardHand("Dealer")
 player_hit = 'y'
