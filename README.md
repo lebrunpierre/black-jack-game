@@ -1,6 +1,7 @@
 # black-jack-game
 simple text based blackjack game
 
+Run using the play_blackjack.py file
 
 1. Dealer stands at 17 and above.
 2. Dealer must draw when at 16 or below 
