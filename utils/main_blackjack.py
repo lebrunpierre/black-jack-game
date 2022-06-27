@@ -9,34 +9,43 @@ is_player_playing = input("Do you want to play a little game? \n Type 'y': ")
 # Creating First Hand
 player = blackjack_actors.blackJackActors("Player")
 dealer = blackjack_actors.blackJackActors("Dealer")
-player_hit = 'y'
-player.show_cards()
-dealer.show_cards(True)
+player_draw = 'y'
 
-while player_hit == 'y':
+
+
+while player_draw == 'y':
+    # Checks to see if there is a winner. Assigned to variable to save space.
+    check_rules_player_draw = rules.rule_check(player, dealer, False)
+    check_rules_player_no_draw = rules.rule_check(player, dealer, True)
+
+    player.show_cards()
+    dealer.show_cards(True)
     # checks to see if there is any blackjack winners.
-    if rules.rule_check(player, dealer, False) is not None:
-        print(rules.rule_check(player, dealer, False))
+    if check_rules_player_draw is not None:
+        dealer.final_outcome()
+        print(check_rules_player_draw)
         break
 
     # Asks player if they want another card
-    player_hit = input("Would you like to draw another card? \n" +
+    player_draw = input("Would you like to draw another card? \n" +
                        "Press 'y' for yes ")
 
-    if player_hit == 'y':
-        # draws card and checks dealer will hit if they need to.
+    if player_draw == 'y':
+        # draws card and checks dealer will draw if they need to.
         player.draw_additional_card()
         player.show_cards()
         rules.dealer_draw(dealer)
 
         # checks blackjack rules to see if there is a winner
-        if rules.rule_check(player, dealer, False) is not None:
-            print(rules.rule_check(player, dealer, False))
-            dealer.get_total()
+        if check_rules_player_draw is not None:
+            rules.dealer_draw(dealer)
+            dealer.final_outcome()
+            print(check_rules_player_draw)
             break
     else:
-        # Player declines hit and rules are checked
+        # Player declines draw and rules are checked
+        rules.dealer_draw(dealer)
         dealer.final_outcome()
         input()
         player.final_outcome()
-        print(rules.rule_check(player, dealer, True))
+        print(check_rules_player_no_draw)

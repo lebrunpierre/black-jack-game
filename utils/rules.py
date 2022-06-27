@@ -1,4 +1,5 @@
 import blackjack_actors
+
 # used to print out the results to the user.
 win = ' Player won'
 lose = 'Player lost'
@@ -15,9 +16,9 @@ def black_jack_check(player, dealer):
     """
     if dealer.get_total() == 21 and player.get_total == 21:
         return draw
-    if dealer.get_total() == 21:
+    elif dealer.get_total() == 21:
         return lose
-    if player.get_total() == 21:
+    elif player.get_total() == 21:
         return win
     else:
         return None
@@ -26,14 +27,16 @@ def black_jack_check(player, dealer):
 # Checks if dealer or player is over 21
 def bust_check(player, dealer):
     """
-    Checks if player or dealer has gon over 21 in card totall
+    Checks if player or dealer has gone over 21 in card totall
     :param player:
     :param dealer:
     :return:
     """
-    if sum(player.cards) > 21:
+    if player.get_total() > 21 and dealer.get_total() > 21:
+        return draw
+    elif player.get_total() > 21:
         return lose
-    if sum(dealer.cards) > 21:
+    elif dealer.get_total() > 21:
         return win
     else:
         return None
@@ -48,7 +51,7 @@ def dealer_draw(dealer):
     :param dealer:
     :return:
     """
-    while sum(dealer.cards) < 16:
+    while sum(dealer.cards) <= 16:
         dealer.draw_additional_card()
         print("Dealer cards are under 17. Dealer Hits")
         input()
@@ -67,11 +70,11 @@ def best_hand_check(player, dealer):
     :param dealer:
     :return:
     """
-    if sum(player.cards) > sum(dealer.cards):
+    if sum(dealer.cards) < sum(player.cards) and sum(player.cards) < 21:
         return win
-    elif sum(player.cards) == sum(dealer.cards):
+    elif sum(dealer.cards) == sum(player.cards) and sum(dealer.cards) < 21:
         return draw
-    elif sum(player.cards) < sum(dealer.cards):
+    elif sum(dealer.cards) > sum(player.cards) and sum(dealer.cards) < 21:
         return lose
 
 
@@ -84,11 +87,14 @@ def rule_check(player, dealer, is_final_hand=False):
     :return:
     """
 
-    if black_jack_check(player, dealer) is not None:
-        return black_jack_check(player, dealer)
-
-    elif bust_check(player, dealer) is not None:
+    if bust_check(player, dealer) is not None:
         return bust_check(player, dealer)
 
-    elif is_final_hand is True:
+    elif is_final_hand:
         return best_hand_check(player, dealer)
+
+    elif black_jack_check(player, dealer) is not None:
+        return black_jack_check(player, dealer)
+
+
+
